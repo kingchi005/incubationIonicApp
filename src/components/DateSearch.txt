@@ -1,0 +1,45 @@
+// import React, { useState } from "react";
+// import IncubationStore from "../store/IncubationStore";
+// import {
+// 	IonItem,
+// 	IonText,
+// 	IonDatetimeButton,
+// 	IonModal,
+// 	IonDatetime,
+// } from "@ionic/react";
+// import { IIncubation } from "../context/types";
+// import { format } from "date-fns";
+
+// const DateSearch = () => {
+// 	"SUNDAY 28TH NOVEMBER, 2021";
+// 	const [dataSearchResult, setDataSearchResult] = useState({});
+// 	const incub = IncubationStore.useState((s) => s.Incubation);
+// 	const getIIncubationByDate = (date: string) => {
+// 		const formatedDate = format(
+// 			new Date(date),
+// 			"EEEE do MMMM, yyyy"
+// 		).toUpperCase();
+
+// 		const result = incub.find((inc) => inc.date == formatedDate);
+// 		setDataSearchResult(result);
+// 	};
+// 	return (
+// 		<>
+// 			<IonItem>
+// 				<IonText>Search using date: </IonText>
+// 				<IonDatetimeButton slot="end" datetime="date"></IonDatetimeButton>
+// 				<IonModal keepContentsMounted={true}>
+// 					<IonDatetime
+// 						id="date"
+// 						showDefaultButtons={true}
+// 						doneText="select"
+// 						presentation="date"
+// 						onIonChange={(e) => getIIncubationByDate(e.detail.value as string)}
+// 					></IonDatetime>
+// 				</IonModal>
+// 			</IonItem>
+// 		</>
+// 	);
+// };
+
+// export default DateSearch;
