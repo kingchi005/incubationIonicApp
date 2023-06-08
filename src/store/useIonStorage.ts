@@ -35,7 +35,11 @@ export async function loadDatabase() {
 	let storedIncubationData = <IIncubation[] | null>(
 		await incubationStore.get(INCUBATION_KEY)
 	);
-	if (storedIncubationData == null || storedIncubationData.length == 0) {
+	if (
+		storedIncubationData == null ||
+		storedIncubationData.length == 0 ||
+		true
+	) {
 		console.log("Fetching Incubation data...");
 		await fetchIncubationAndStore();
 	} else {
@@ -46,7 +50,9 @@ export async function loadDatabase() {
 
 async function fetchIncubationAndStore() {
 	const incubation = Incubation;
+	const res = await (await fetch("../context/incubationMockData.json")).json();
 	// or fetch incubation data from online
+	console.log("response", res);
 	await incubationStore.set(INCUBATION_KEY, incubation);
 	loadDatabase();
 }

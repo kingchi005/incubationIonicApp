@@ -6,23 +6,24 @@ import {
 	IonHeader,
 	IonIcon,
 	IonItem,
+	IonItemDivider,
 	IonLabel,
+	IonList,
+	IonListHeader,
 	IonMenu,
 	IonMenuButton,
 	IonMenuToggle,
 	IonPage,
+	IonSplitPane,
+	IonText,
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
-import { logoIonic, settings } from "ionicons/icons";
+import { logoFacebook, logoIonic, settings } from "ionicons/icons";
 export default function MenuBar() {
 	const menuItem: { icon: string; title: string; routerLink: string }[] = [
 		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
-		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
-		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
-		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
-		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
-		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
+		{ icon: logoFacebook, title: "Living word", routerLink: "/" },
 		{ icon: settings, title: "Settings", routerLink: "/settings" },
 	];
 	return (
@@ -43,10 +44,19 @@ export default function MenuBar() {
 								routerLink={`${item.routerLink}`}
 							>
 								<IonIcon slot="start" icon={item.icon} style={{}} />
-								<IonLabel>{item.title}</IonLabel>
+								<IonLabel color="success">{item.title}</IonLabel>
 							</IonItem>
 						</IonMenuToggle>
 					))}
+					<IonItem>
+						<IonLabel>
+							<p>Links</p>
+							<IonList></IonList>
+							<div>
+								<IonIcon icon={logoFacebook}></IonIcon>
+							</div>
+						</IonLabel>
+					</IonItem>
 				</IonContent>
 			</IonMenu>
 		</>
