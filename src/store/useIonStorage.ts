@@ -31,6 +31,7 @@ const incubationStore = new Storage({
 })();
 
 export async function loadDatabase() {
+	console.log("initialising data...");
 	let storedIncubationData = <IIncubation[] | null>(
 		await incubationStore.get(INCUBATION_KEY)
 	);
@@ -38,8 +39,8 @@ export async function loadDatabase() {
 		console.log("Fetching Incubation data...");
 		await fetchIncubationAndStore();
 	} else {
-		console.log("initialising data...");
 		setIncubationState(storedIncubationData!);
+		return true;
 	}
 }
 

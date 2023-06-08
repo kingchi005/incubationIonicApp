@@ -7,6 +7,9 @@ import {
 	IonTitle,
 	IonToolbar,
 	setupIonicReact,
+	useIonLoading,
+	useIonViewDidEnter,
+	useIonViewWillEnter,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
@@ -39,9 +42,24 @@ import { loadDatabase } from "./store/useIonStorage";
 setupIonicReact();
 
 const App: React.FC = () => {
-	useEffect(() => {
-		loadDatabase();
-	}, []);
+	const [present, dismiss] = useIonLoading();
+	// useEffect(() => {
+	present({
+		message: "initalising...",
+		duration: 10000,
+		animated: true,
+		// mode: "ios",
+	});
+	// setTimeout(() => {
+	loadDatabase().then(() => {
+		// if (loaded) {
+		dismiss().then(() => {});
+		// }
+	});
+
+	// dismiss();
+	// }, 1000);
+	// }, []);
 
 	return (
 		<IonApp>

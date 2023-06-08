@@ -16,24 +16,18 @@ import {
 	IonText,
 	IonTitle,
 	IonToolbar,
+	RouteManagerContext,
+	useIonViewDidEnter,
 	useIonViewDidLeave,
-	useIonViewWillEnter,
-	useIonViewWillLeave,
 } from "@ionic/react";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { IIncubation } from "../context/types";
+import React from "react";
 import { ellipsisHorizontal, ellipsisVertical, search } from "ionicons/icons";
-import { RouteComponentProps } from "react-router";
-import Incubation, {
-	getIncubationByDate,
-	parseDate,
-} from "../context/incubation";
+import { Redirect, RouteComponentProps, Router } from "react-router";
+import { getIncubationByDate, parseDate } from "../context/incubation";
 import theme from "../theme/theme";
-import IncubationStore, {
+import {
 	getCurrentIncubationData,
-	getIncubationState,
 	setCurrentIncubationData,
-	setIncubationState,
 } from "../store/IncubationStore";
 import format from "date-fns/format";
 import SearchModal from "../components/SearchModal";
@@ -45,15 +39,20 @@ interface DetailsPageProps
 
 const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 	const { date } = match.params;
-	let _currentData = getCurrentIncubationData();
-
-	if (_currentData == undefined) {
+	let currentData = getCurrentIncubationData();
+	currentData = getCurrentIncubationData();
+	let _date = "";
+	if (currentData == undefined) {
 		let data = getIncubationByDate(date);
-		setCurrentIncubationData(data!);
-		_currentData = getCurrentIncubationData();
+		if (!data) {
+		}
+		setCurrentIncubationData(data);
+		currentData = getCurrentIncubationData();
+		_date = format(parseDate(currentData!.date), "eeee do");
+	} else {
+		_date = format(parseDate(currentData.date), "eeee do");
 	}
 
-	const _date = format(parseDate(_currentData!.date), "eeee do");
 	useIonViewDidLeave(() => {
 		setCurrentIncubationData(undefined);
 	}, []);
@@ -71,12 +70,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 							<IonIcon slot="icon-only" icon={search}></IonIcon>
 						</IonButton>
 
-						<IonButton
-							onClick={() => {
-								console.log("click");
-								setCurrentIncubationData(Incubation[8]);
-							}}
-						>
+						<IonButton>
 							<IonIcon
 								slot="icon-only"
 								ios={ellipsisHorizontal}
@@ -87,7 +81,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
-				{!_currentData ? (
+				{!currentData ? (
 					<></>
 				) : (
 					<>
@@ -115,7 +109,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									Topic:
 								</IonText>
 								<IonCardTitle style={{ color: `${theme.fontColor}` }}>
-									{_currentData.topic}
+									{currentData.topic}
 								</IonCardTitle>
 							</IonCardContent>
 						</IonCard>
@@ -132,12 +126,12 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 											style={{ color: `${theme.fontColor}` }}
 											className="ion-text-wrap ion-padding-top ion-text-center"
 										>
-											{_currentData.meditation.text}
+											{currentData.meditation.text}
 										</IonText>
 									</IonRow>
 									<IonRow>
 										<IonText color="medium" className="ion-padding-top">
-											{_currentData.meditation.reference}
+											{currentData.meditation.reference}
 										</IonText>
 									</IonRow>
 								</IonGrid>
@@ -148,7 +142,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 								<IonText color="warning" className="ion-padding-vertical">
 									Today's text:{" "}
 								</IonText>
-								<IonText slot="end">{_currentData.text.reference}</IonText>
+								<IonText slot="end">{currentData.text.reference}</IonText>
 							</IonCardContent>
 						</IonCard>
 						<IonItem>
@@ -156,7 +150,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 								style={{ color: `${theme.fontColor}` }}
 								className="ion-padding-vertical"
 							>
-								{_currentData.body}
+								{currentData.body}
 							</IonText>
 						</IonItem>
 
@@ -166,7 +160,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									Further Study:
 								</IonText>
 							</IonCardContent>
-							{_currentData.further_study.map((fs, key) => (
+							{currentData.further_study.map((fs, key) => (
 								<IonItem className="" key={key}>
 									<IonGrid>
 										<IonRow>
@@ -193,7 +187,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									Prayer(s):
 								</IonText>
 							</IonCardContent>
-							{_currentData.prayer.map((pr, key) => (
+							{currentData.prayer.map((pr, key) => (
 								<IonItem className="" key={key}>
 									<IonGrid>
 										<IonRow>
@@ -221,7 +215,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 											style={{ color: `${theme.fontColor}` }}
 											className="ion-text-wrap ion-padding- "
 										>
-											{_currentData.confession}
+											{currentData.confession}
 										</IonText>
 									</IonRow>
 								</IonGrid>

@@ -18,6 +18,7 @@ import { getIncubationState } from "../store/IncubationStore";
 import { getIncubationByDate } from "../context/incubation";
 import format from "date-fns/format";
 import ListCard from "../components/ListCard";
+import Loading from "../components/Loading";
 
 const Home: React.FC = () => {
 	const dataFmt = format(new Date(), "EEEE do MMMM, yyyy").toUpperCase();
@@ -51,7 +52,9 @@ const Home: React.FC = () => {
 					<IonButton routerLink="/home">go home</IonButton>
 					{/* <IonButton routerLink="/details">go details</IonButton> */}
 				</IonItem>
-
+				<IonItem>
+					<Loading message="Initialising data ..." />
+				</IonItem>
 				<IonItem>
 					<IonLabel>
 						Multi-line text that should ellipsis when it is too long to fit on
