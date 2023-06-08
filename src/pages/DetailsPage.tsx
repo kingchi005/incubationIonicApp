@@ -11,14 +11,20 @@ import {
 	IonIcon,
 	IonItem,
 	IonLabel,
+	IonList,
+	IonListHeader,
 	IonPage,
 	IonRow,
+	IonSkeletonText,
 	IonText,
+	IonThumbnail,
 	IonTitle,
 	IonToolbar,
 	RouteManagerContext,
+	useIonRouter,
 	useIonViewDidEnter,
 	useIonViewDidLeave,
+	useIonViewWillLeave,
 } from "@ionic/react";
 import React from "react";
 import { ellipsisHorizontal, ellipsisVertical, search } from "ionicons/icons";
@@ -31,6 +37,7 @@ import {
 } from "../store/IncubationStore";
 import format from "date-fns/format";
 import SearchModal from "../components/SearchModal";
+import Popover from "../components/Popover";
 
 interface DetailsPageProps
 	extends RouteComponentProps<{
@@ -39,24 +46,14 @@ interface DetailsPageProps
 
 const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 	const { date } = match.params;
-	let currentData = getCurrentIncubationData();
-	currentData = getCurrentIncubationData();
-	let _date = "";
-	if (currentData == undefined) {
-		let data = getIncubationByDate(date);
-		if (!data) {
-		}
-		setCurrentIncubationData(data);
-		currentData = getCurrentIncubationData();
-		_date = format(parseDate(currentData!.date), "eeee do");
-	} else {
-		_date = format(parseDate(currentData.date), "eeee do");
-	}
+	const router = useIonRouter();
 
-	useIonViewDidLeave(() => {
-		setCurrentIncubationData(undefined);
-	}, []);
+	const currentData = getIncubationByDate(date);
+	// const _date = format(parseDate(currentData.date), "eeee do");
 
+	const goToPage = () => {
+		router.push("/details/THURSDAY 2ND DECEMBER, 2021", "root", "replace");
+	};
 	return (
 		<IonPage>
 			<IonHeader>
@@ -64,25 +61,62 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 					<IonButtons slot="start">
 						<IonBackButton defaultHref="/home" />
 					</IonButtons>
-					<IonTitle>{_date}</IonTitle>
+					<IonTitle>
+						{currentData ? format(parseDate(currentData.date), "eeee do") : ""}
+					</IonTitle>
 					<IonButtons slot="end">
 						<IonButton id="open-modal" expand="block">
 							<IonIcon slot="icon-only" icon={search}></IonIcon>
 						</IonButton>
+						<Popover />
 
-						<IonButton>
+						{/* <IonButton onClick={goToPage}>
 							<IonIcon
 								slot="icon-only"
 								ios={ellipsisHorizontal}
 								md={ellipsisVertical}
 							></IonIcon>
-						</IonButton>
+						</IonButton> */}
 					</IonButtons>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent fullscreen>
 				{!currentData ? (
-					<></>
+					<>
+						<IonList>
+							<IonListHeader>
+								<IonSkeletonText
+									animated={true}
+									style={{ width: "80px" }}
+								></IonSkeletonText>
+							</IonListHeader>
+							<IonItem>
+								<IonThumbnail slot="start">
+									<IonSkeletonText animated={true}></IonSkeletonText>
+								</IonThumbnail>
+								<IonLabel>
+									<h3>
+										<IonSkeletonText
+											animated={true}
+											style={{ width: "80%" }}
+										></IonSkeletonText>
+									</h3>
+									<p>
+										<IonSkeletonText
+											animated={true}
+											style={{ width: "60%" }}
+										></IonSkeletonText>
+									</p>
+									<p>
+										<IonSkeletonText
+											animated={true}
+											style={{ width: "30%" }}
+										></IonSkeletonText>
+									</p>
+								</IonLabel>
+							</IonItem>
+						</IonList>
+					</>
 				) : (
 					<>
 						{/* <IonHeader collapse='condense'>

@@ -38,38 +38,21 @@ import SearchPage from "./components/SearchPage";
 import IncubationList from "./pages/IncubationList";
 import { useEffect } from "react";
 import { loadDatabase } from "./store/useIonStorage";
+import SettingsPage from "./pages/SettingsPage";
 
 setupIonicReact();
-
 const App: React.FC = () => {
 	const [present, dismiss] = useIonLoading();
-	// useEffect(() => {
-	present({
-		message: "initalising...",
-		duration: 10000,
-		animated: true,
-		// mode: "ios",
-	});
 	// setTimeout(() => {
-	loadDatabase().then(() => {
-		// if (loaded) {
-		dismiss().then(() => {});
-		// }
-	});
-
-	// dismiss();
-	// }, 1000);
-	// }, []);
-
+	loadDatabase();
+	// }, 3000);
 	return (
 		<IonApp>
 			<IonReactRouter>
 				<IonRouterOutlet>
 					<Route path="/home" component={Home} />
-					<Route path="/exampletab" component={ExampleTab} />
 					<Route path="/details/:date" component={DetailsPage} />
-					<Route path="/search" component={SearchPage} />
-					<Route path="/incubation-list" component={IncubationList} />
+					<Route path="/settings" component={SettingsPage} />
 					<Route exact path="/">
 						<Redirect to="/home" />
 					</Route>

@@ -1,4 +1,4 @@
-import { IonCard, IonGrid } from "@ionic/react";
+import { IonCard, IonGrid, useIonRouter } from "@ionic/react";
 import { format } from "date-fns";
 import { getIncubationByDate, parseDate } from "../context/incubation";
 import theme from "../theme/theme";
@@ -20,20 +20,15 @@ const ListCard: React.FC<dataProp> = ({
 	fromHome,
 }): JSX.Element => {
 	const currentData = getIncubationByDate(item.date);
+	const router = useIonRouter();
 	const selectData = () => {
-		setCurrentIncubationData(currentData!);
+		router.push(`/details/${item.date}`, "root", "replace");
 		dismissModal!();
 	};
-
 	return (
 		<>
 			{!fromHome ? (
-				<IonCard
-					className="ion-text-"
-					onClick={() => {
-						selectData();
-					}}
-				>
+				<IonCard className="ion-text-" onClick={selectData}>
 					<IonGrid className="ion-text-center">
 						<div
 							style={{
