@@ -33,10 +33,7 @@ const SearchPage = ({ dismissModal }: IDismisModal) => {
 		);
 	};
 	const searchIncubationByDate = (date: string) => {
-		const formatedDate = format(
-			new Date(date),
-			"EEEE do MMMM, yyyy"
-		).toUpperCase();
+		const formatedDate = new Date(date).toDateString();
 
 		const result = incubation.filter((inc) => inc.date == formatedDate) || {};
 		setDataSearchResult(result);
@@ -48,6 +45,7 @@ const SearchPage = ({ dismissModal }: IDismisModal) => {
 				<IonSearchbar
 					onIonInput={searchIncubationByTopic}
 					debounce={50}
+					style={{}}
 				></IonSearchbar>
 				{/* <IonButton onClick={() => setIncubationState(Incubation)}>
 						setincubation
