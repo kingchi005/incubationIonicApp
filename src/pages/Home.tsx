@@ -15,15 +15,23 @@ import {
 	IonMenuButton,
 	IonPage,
 	IonSkeletonText,
+	IonText,
 	IonThumbnail,
 	IonTitle,
 	IonToolbar,
+	useIonAlert,
+	useIonLoading,
+	useIonToast,
 } from "@ionic/react";
 import {
+	arrowBackCircle,
 	ellipsisHorizontal,
 	ellipsisVertical,
 	menu,
 	menuOutline,
+	refresh,
+	refreshCircle,
+	refreshCircleSharp,
 } from "ionicons/icons";
 import InfiniteList from "../components/InfiniteList";
 import { getIncubationState } from "../store/IncubationStore";
@@ -35,10 +43,74 @@ import Popover from "../components/Popover";
 import MenuBar from "../components/MenuBar";
 import theme from "../theme/theme";
 import SkeletonListCard from "../components/SkeletonListCard";
+import { useEffect, useState } from "react";
+import { loadDatabase, fetchIncubationAndStore } from "../store/useIonStorage";
 
 const Home: React.FC = () => {
-	const dataFmt = format(new Date(), "EEEE do MMMM, yyyy").toUpperCase();
-	const todayDevotional = getIncubationByDate("WEDNESDAY 1ST DECEMBER, 2021");
+	const [loading, setLoading] = useState(true);
+	const [presentToast] = useIonToast();
+	const [present, dismiss] = useIonLoading();
+	// setTimeout(() => {	setLoading(true);
+
+	const initialiseData = () => {
+		loadDatabase()
+			.then((res) => {
+				if (!res) {
+					console.log("fetching data...");
+					fetchIncubationAndStore()
+						.then(() => {
+							loadDatabase().then(() => setLoading(false));
+						})
+						.catch((err) => {
+							setLoading(false);
+							if (err.message == "Failed to fetch") {
+								presentToast({
+									message:
+										"Please Check your internet connection and try again",
+									duration: 5000,
+									position: "bottom",
+									color: "light",
+								});
+								return console.log(
+									"Please Check your internet connection and try again"
+								);
+							}
+							if (err.message == "not found") {
+								presentToast({
+									message: "Please Check your supscription and try again",
+									duration: 5000,
+									position: "bottom",
+									color: "light",
+								});
+								return console.log(
+									"Please Check your supscription and try again"
+								);
+							}
+							presentToast({
+								message: err.message,
+								duration: 5000,
+								position: "bottom",
+								color: "light",
+							});
+							console.log("Fetch error ;(", { err });
+						});
+				} else setLoading(false);
+			})
+			.catch((err) => {
+				console.log("Database error: :(", err);
+			});
+	};
+	useEffect(() => {
+		initialiseData();
+	}, []);
+
+	// }, 3000);
+
+	const dataFmt = new Date().toDateString();
+	// const todayDevotional = getIncubationByDate("Wed Feb 02 2022");
+	const todayDevotional = getIncubationState()[0];
+	// console.log(todayDevotional);
+	const [presentAlert] = useIonAlert();
 
 	return (
 		<>
@@ -59,16 +131,51 @@ const Home: React.FC = () => {
 					<IonItem>living word ministery international</IonItem>
 					{todayDevotional ? (
 						<ListCard fromHome item={todayDevotional} />
-					) : (
+					) : loading ? (
 						<SkeletonListCard />
+					) : (
+						<IonItem style={{ color: "#888" }}>
+							<IonButton
+								color="light"
+								style={{ color: "#888" }}
+								onClick={() => {
+									setLoading(true);
+									console.log("retrying...");
+									initialiseData();
+								}}
+							>
+								Retry
+								<IonIcon size="lg" icon={refresh} />
+							</IonButton>
+						</IonItem>
 					)}
 					<IonItem>
 						<IonLabel>Basic Item</IonLabel>
-						<IonButton routerLink="/home">go home</IonButton>
+
 						{/* <IonButton routerLink="/details">go details</IonButton> */}
 					</IonItem>
 					<IonItem>
-						<Loading message="Initialising data ..." />
+						<IonButton
+							onClick={() => {
+								presentAlert({
+									header: "Offline :(",
+									// subHeader: "Important message",
+									message:
+										"you are currently Offline please connect to internet to download the incubation",
+									buttons: [
+										{
+											text: "try again",
+											handler() {
+												console.log("alert handler");
+											},
+										},
+									],
+									// mode: "md",
+								});
+							}}
+						>
+							alert now
+						</IonButton>
 					</IonItem>
 					<IonItem>
 						<IonLabel>

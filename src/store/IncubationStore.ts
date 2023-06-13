@@ -1,5 +1,5 @@
 import { Store } from "pullstate";
-import data from "../context/incubationMockData.json";
+import data from "../../public/incubationMockData.json";
 import { IIncubation } from "../context/types";
 
 const Incubation = data as IIncubation[];

@@ -62,7 +62,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 						<IonBackButton defaultHref="/home" />
 					</IonButtons>
 					<IonTitle>
-						{currentData ? format(parseDate(currentData.date), "eeee do") : ""}
+						{currentData ? format(new Date(currentData.date), "eeee do") : ""}
 					</IonTitle>
 					<IonButtons slot="end">
 						<IonButton id="open-modal" expand="block">

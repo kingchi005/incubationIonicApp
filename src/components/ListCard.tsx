@@ -50,7 +50,7 @@ const ListCard: React.FC<dataProp> = ({
 								{item.topic}
 							</h4>
 							<p style={{ textAlign: "end", paddingRight: "8px" }}>
-								{"" + format(parseDate("" + item.date), "eee MMM do")}
+								{"" + format(new Date(item.date), "eee MMM do")}
 							</p>
 						</div>
 						<p
@@ -92,7 +92,7 @@ const ListCard: React.FC<dataProp> = ({
 								{item.topic}
 							</h4>
 							<p style={{ textAlign: "end", paddingRight: "8px" }}>
-								{"" + format(parseDate("" + item.date), "eee MMM do")}
+								{"" + format(new Date(item.date), "eee MMM do")}
 							</p>
 						</div>
 						<p

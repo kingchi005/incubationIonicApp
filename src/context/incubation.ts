@@ -1,6 +1,6 @@
 import { getIncubationState } from "../store/IncubationStore";
 import { IBank, IIncubation } from "./types";
-import Incubation from "./incubationMockData.json";
+import Incubation from "../../public/incubationMockData.json";
 
 export default Incubation;
 

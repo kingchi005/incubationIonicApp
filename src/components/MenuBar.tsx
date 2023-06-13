@@ -19,7 +19,15 @@ import {
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
-import { logoFacebook, logoIonic, settings } from "ionicons/icons";
+import {
+	logoFacebook,
+	logoInstagram,
+	logoIonic,
+	logoWebComponent,
+	logoWhatsapp,
+	logoYoutube,
+	settings,
+} from "ionicons/icons";
 export default function MenuBar() {
 	const menuItem: { icon: string; title: string; routerLink: string }[] = [
 		{ icon: logoIonic, title: "Ionic Logo", routerLink: "/" },
@@ -34,7 +42,7 @@ export default function MenuBar() {
 						<IonTitle></IonTitle>
 					</IonToolbar>
 				</IonHeader> */}
-				<IonContent className="ion-padding">
+				<IonContent style={{}} className="ion-padding">
 					{menuItem.map((item, k) => (
 						<IonMenuToggle key={k}>
 							<IonItem
@@ -48,12 +56,24 @@ export default function MenuBar() {
 							</IonItem>
 						</IonMenuToggle>
 					))}
-					<IonItem>
+					<IonItem style={{}}>
 						<IonLabel>
 							<p>Links</p>
-							<IonList></IonList>
-							<div>
-								<IonIcon icon={logoFacebook}></IonIcon>
+							{/* <IonList></IonList> */}
+							<div style={{ display: "flex", justifyContent: "space-evenly" }}>
+								{[
+									{ logo: logoFacebook, color: "blue" },
+									{ logo: logoWhatsapp, color: "green" },
+									{ logo: logoInstagram, color: "orange" },
+									{ logo: logoWebComponent, color: "grey" },
+									{ logo: logoYoutube, color: "red" },
+								].map((it, k) => (
+									<IonIcon
+										key={k}
+										style={{ color: `${it.color}` }}
+										icon={it.logo}
+									></IonIcon>
+								))}
 							</div>
 						</IonLabel>
 					</IonItem>

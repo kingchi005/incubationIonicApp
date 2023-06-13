@@ -37,6 +37,7 @@ export default function SearchModal() {
 			trigger="open-modal"
 			canDismiss={canDismiss}
 			presentingElement={presentingElement}
+			style={{ borderRadius: "3px" }}
 		>
 			<IonHeader>
 				<IonToolbar>
