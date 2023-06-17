@@ -49,7 +49,7 @@ const SettingsPage: React.FC = () => {
 			<IonContent className="ion-padding">
 				<h3 style={{ fontSize: "18px" }}>Appearance</h3>
 				{/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 6, 5, 4, 3, 2, 2].map((i, k) => ( */}
-				<IonItem /* key={} */>
+				<IonList style={{ paddingInline: "10px" }} /* key={} */>
 					<IonLabel
 						style={{
 							display: "flex",
@@ -74,8 +74,8 @@ const SettingsPage: React.FC = () => {
 							}}
 						/>
 					</IonLabel>
-				</IonItem>
-				<IonItem /* key={} */>
+				</IonList>
+				<IonList style={{ paddingInline: "10px" }} /* key={} */>
 					<IonLabel style={{}}>
 						<IonLabel style={{}}>
 							<div style={{ marginBottom: "10px" }}>Font size</div>
@@ -85,7 +85,7 @@ const SettingsPage: React.FC = () => {
 						</p>
 						<IonRange
 							aria-label="change the size of your font"
-							style={{ maxWidth: "90%", marginInline: "auto" }}
+							style={{ maxWidth: "98%", marginInline: "auto" }}
 							step={0.1}
 							max={1.6}
 							min={0.9}
@@ -96,7 +96,7 @@ const SettingsPage: React.FC = () => {
 							}}
 						/>
 					</IonLabel>
-				</IonItem>
+				</IonList>
 				{/* ))} */}
 			</IonContent>
 		</IonPage>

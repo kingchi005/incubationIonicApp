@@ -14,17 +14,21 @@ import {
 	IonMenu,
 	IonMenuButton,
 	IonPage,
+	IonRefresher,
+	IonRefresherContent,
 	IonSkeletonText,
 	IonText,
 	IonThumbnail,
 	IonTitle,
 	IonToolbar,
+	RefresherEventDetail,
 	useIonAlert,
 	useIonLoading,
 	useIonToast,
 } from "@ionic/react";
 import {
 	arrowBackCircle,
+	chevronBackCircleOutline,
 	ellipsisHorizontal,
 	ellipsisVertical,
 	menu,
@@ -48,22 +52,22 @@ import { loadDatabase, fetchIncubationAndStore } from "../store/useIonStorage";
 import { getSettingsState } from "../store/settingsStore";
 
 const Home: React.FC = () => {
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	const [presentToast] = useIonToast();
 	const [present, dismiss] = useIonLoading();
 	// setTimeout(() => {	setLoading(true);
 
-	const initialiseData = () => {
+	const initialiseData = (e?: CustomEvent<RefresherEventDetail>) => {
 		loadDatabase()
 			.then((res) => {
 				if (!res) {
 					console.log("fetching data...");
 					fetchIncubationAndStore()
 						.then(() => {
-							loadDatabase().then(() => setLoading(false));
+							loadDatabase().then(() => setIsLoading(false));
 						})
 						.catch((err) => {
-							setLoading(false);
+							setIsLoading(false);
 							if (err.message == "Failed to fetch") {
 								presentToast({
 									message:
@@ -72,6 +76,7 @@ const Home: React.FC = () => {
 									position: "bottom",
 									color: "light",
 								});
+								e?.detail.complete();
 								return console.log(
 									"Please Check your internet connection and try again"
 								);
@@ -83,6 +88,7 @@ const Home: React.FC = () => {
 									position: "bottom",
 									color: "light",
 								});
+								e?.detail.complete();
 								return console.log(
 									"Please Check your supscription and try again"
 								);
@@ -93,11 +99,16 @@ const Home: React.FC = () => {
 								position: "bottom",
 								color: "light",
 							});
+							e?.detail.complete();
 							console.log("Fetch error ;(", { err });
 						});
-				} else setLoading(false);
+				} else {
+					e?.detail.complete();
+					setIsLoading(false);
+				}
 			})
 			.catch((err) => {
+				e?.detail.complete();
 				console.log("Database error: :(", err);
 			});
 	};
@@ -129,26 +140,45 @@ const Home: React.FC = () => {
 					</IonToolbar>
 				</IonHeader>
 				<IonContent fullscreen>
-					<IonItem>living word ministery international</IonItem>
+					<IonRefresher
+						slot="fixed"
+						pullMin={100}
+						onIonRefresh={(e) => {
+							if (!isLoading) setIsLoading(true);
+							initialiseData(e);
+						}}
+						style={{ zIndex: 100 }}
+					>
+						<IonRefresherContent
+							pullingIcon={refresh}
+							pullingText={"Pull to refresh"}
+							refreshingSpinner="bubbles"
+						></IonRefresherContent>
+					</IonRefresher>
+					<IonItem style={{ marginTop: "10px" }}>
+						living word ministery international
+					</IonItem>
 					{todayDevotional ? (
 						<ListCard fromHome item={todayDevotional} />
-					) : loading ? (
+					) : isLoading ? (
 						<SkeletonListCard />
 					) : (
-						<IonItem style={{ color: "#888" }}>
-							<IonButton
-								color="light"
-								style={{ color: "#888" }}
-								onClick={() => {
-									setLoading(true);
-									console.log("retrying...");
-									initialiseData();
-								}}
-							>
-								Retry
-								<IonIcon size="lg" icon={refresh} />
-							</IonButton>
-						</IonItem>
+						<>
+							{/* <IonItem style={{ color: "#888" }}>
+								<IonButton
+									color="light"
+									style={{ color: "#888" }}
+									onClick={() => {
+										setLoading(true);
+										console.log("retrying...");
+										initialiseData();
+									}}
+								>
+									Retry
+									<IonIcon size="lg" icon={refresh} />
+								</IonButton>
+							</IonItem> */}
+						</>
 					)}
 					<IonItem>
 						<IonLabel>Basic Item</IonLabel>

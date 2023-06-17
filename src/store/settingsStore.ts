@@ -1,6 +1,10 @@
 import { Store } from "pullstate";
 import { incubationStore } from "./useIonStorage";
-import defaultSettings, { settingsKeyType, settingsType } from "../theme/theme";
+import defaultSettings, {
+	settingsKeyType,
+	settingsType,
+	settingsValueType,
+} from "../theme/theme";
 /* (() => {
 	incubationStore.get("user-settings").then((data) => {
 		if (Object.keys(data).length !== 0) {
@@ -8,7 +12,7 @@ import defaultSettings, { settingsKeyType, settingsType } from "../theme/theme";
 		}
 	});
 })(); */
-const SettingsStore = new Store({} as settingsType);
+const SettingsStore = new Store<settingsType>({} as settingsType);
 
 export const getSettingsState = () => {
 	return SettingsStore.useState((s) => s);
@@ -21,12 +25,12 @@ export const setSettingsState = (settings: settingsType) =>
 
 export const updateSettingsKeyValue = (
 	key: settingsKeyType,
-	value: boolean | number | string
+	value: settingsValueType
 ) => {
 	SettingsStore.update((s) => {
-		if (key == "darkMode") s.darkMode = value as boolean;
-		if (key == "fontSize") s.fontSize = value as number;
-		if (key == "fontColor") s.fontColor = value as string;
+		if (key == "darkMode") s.darkMode = <boolean>value;
+		if (key == "fontSize") s.fontSize = <number>value;
+		if (key == "fontColor") s.fontColor = <string>value;
 	});
 };
 

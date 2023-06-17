@@ -4,7 +4,10 @@ const defaultSettings = {
 	fontSize: 1.1,
 };
 
-export type settingsKeyType = keyof typeof defaultSettings;
 export type settingsType = typeof defaultSettings;
+export type settingsKeyType = keyof typeof defaultSettings;
+
+export type settingsValueType =
+	(typeof defaultSettings)[keyof typeof defaultSettings];
 
 export default defaultSettings;
