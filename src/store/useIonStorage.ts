@@ -4,6 +4,8 @@ import { getIncubationState, setIncubationState } from "./IncubationStore";
 import Incubation from "../../public/incubationMockData.json";
 import CordovaSQLiteDriver from "localforage-cordovasqlitedriver";
 import { Network } from "@capacitor/network";
+import defaultSettings, { settingsType } from "../theme/theme";
+import { setSettingsState } from "./settingsStore";
 
 const INCUBATION_KEY = "incubation-db";
 const INCUBATION_MONTH_KEY = `${MonthList[1]}_2022`;
@@ -16,7 +18,7 @@ function getIncubationKey() {
 	return `${MonthList[thisMonth]}_${thisYear}`;
 }
 
-const incubationStore = new Storage({
+export const incubationStore = new Storage({
 	name: "INCUBATION_APP_DB",
 	driverOrder: [
 		CordovaSQLiteDriver._driver,
@@ -33,16 +35,28 @@ const incubationStore = new Storage({
 
 export async function loadDatabase() {
 	console.log("initialising data...");
+	// load settings-
+	let storedSettings = <settingsType>await incubationStore.get("user-settings");
+
+	if (storedSettings && Object.keys(storedSettings).length !== 0)
+		setSettingsState(storedSettings);
+	else {
+		incubationStore.set("user-settings", defaultSettings);
+		setSettingsState(defaultSettings);
+	}
+
+	// load incubation-
 	let storedIncubationData = <IIncubation[] | null>(
 		await incubationStore.get(INCUBATION_KEY)
 	);
-	console.log("initialised data!");
 	if (storedIncubationData == null || storedIncubationData.length == 0) {
 		return false;
 	}
 	setIncubationState(storedIncubationData!);
+
+	console.log("initialised data!");
 	// --------------------------------------------
-	incubationStore.clear();
+	// incubationStore.clear();
 	return true;
 }
 

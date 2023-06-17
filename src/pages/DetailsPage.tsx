@@ -5,6 +5,7 @@ import {
 	IonCard,
 	IonCardContent,
 	IonCardTitle,
+	IonCol,
 	IonContent,
 	IonGrid,
 	IonHeader,
@@ -30,7 +31,6 @@ import React from "react";
 import { ellipsisHorizontal, ellipsisVertical, search } from "ionicons/icons";
 import { Redirect, RouteComponentProps, Router } from "react-router";
 import { getIncubationByDate, parseDate } from "../context/incubation";
-import theme from "../theme/theme";
 import {
 	getCurrentIncubationData,
 	setCurrentIncubationData,
@@ -38,6 +38,7 @@ import {
 import format from "date-fns/format";
 import SearchModal from "../components/SearchModal";
 import Popover from "../components/Popover";
+import { getSettingsState } from "../store/settingsStore";
 
 interface DetailsPageProps
 	extends RouteComponentProps<{
@@ -47,7 +48,7 @@ interface DetailsPageProps
 const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 	const { date } = match.params;
 	const router = useIonRouter();
-
+	const theme = getSettingsState();
 	const currentData = getIncubationByDate(date);
 	// const _date = format(parseDate(currentData.date), "eeee do");
 
@@ -137,16 +138,28 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
             </IonButtons>
           </IonToolbar>
         </IonHeader> */}
-						<IonCard color="" className="ion-margin-vertical">
-							<IonCardContent>
-								<IonText color="warning" className="ion-padding-bottom">
-									Topic:
-								</IonText>
-								<IonCardTitle style={{ color: `${theme.fontColor}` }}>
-									{currentData.topic}
-								</IonCardTitle>
-							</IonCardContent>
-						</IonCard>
+						<IonItem>
+							<IonGrid>
+								<IonRow>
+									<IonText color="warning" className="">
+										Topic:
+									</IonText>
+								</IonRow>
+
+								<IonCard color="" className="ion-margin-vertical">
+									<IonCardContent>
+										<IonCardTitle
+											style={{
+												color: `${theme.fontColor}`,
+												fontSize: `${theme.fontSize + 0.3}em`,
+											}}
+										>
+											{currentData.topic}
+										</IonCardTitle>
+									</IonCardContent>
+								</IonCard>
+							</IonGrid>
+						</IonItem>
 						<IonGrid>
 							<IonItem>
 								<IonGrid>
@@ -157,37 +170,60 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									</IonRow>
 									<IonRow>
 										<IonText
-											style={{ color: `${theme.fontColor}` }}
+											style={{
+												color: `${theme.fontColor}`,
+												fontSize: `${theme.fontSize}em`,
+											}}
 											className="ion-text-wrap ion-padding-top ion-text-center"
 										>
 											{currentData.meditation.text}
 										</IonText>
 									</IonRow>
 									<IonRow>
-										<IonText color="medium" className="ion-padding-top">
+										<IonText
+											color="medium"
+											className="ion-padding-top"
+											style={{ fontSize: `${theme.fontSize}em` }}
+										>
 											{currentData.meditation.reference}
 										</IonText>
 									</IonRow>
 								</IonGrid>
 							</IonItem>
 						</IonGrid>
-						<IonCard className="ion-padding-bo">
-							<IonCardContent>
-								<IonText color="warning" className="ion-padding-vertical">
-									Today's text:{" "}
-								</IonText>
-								<IonText slot="end">{currentData.text.reference}</IonText>
-							</IonCardContent>
-						</IonCard>
+						<IonGrid>
+							<IonItem>
+								<IonCol
+								// style={{ flexDirection: "column", alignItems: "flex-start" }}
+								>
+									<IonRow>
+										<IonText color="warning" className="">
+											Today's text:{" "}
+										</IonText>
+									</IonRow>
+									<IonRow>
+										<IonCard className="" style={{ width: "100%" }}>
+											<IonCardContent>
+												<IonText style={{ fontSize: `${theme.fontSize}em` }}>
+													{currentData.text.reference}
+												</IonText>
+											</IonCardContent>
+										</IonCard>
+									</IonRow>
+								</IonCol>
+							</IonItem>
+						</IonGrid>
 						<IonItem>
 							<IonText
-								style={{ color: `${theme.fontColor}` }}
+								style={{
+									color: `${theme.fontColor}`,
+									fontSize: `${theme.fontSize}em`,
+								}}
 								className="ion-padding-vertical"
 							>
 								{currentData.body}
 							</IonText>
 						</IonItem>
-
 						<IonCard color="">
 							<IonCardContent>
 								<IonText color="warning" className="">
@@ -199,14 +235,21 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									<IonGrid>
 										<IonRow>
 											<IonText
-												style={{ color: `${theme.fontColor}` }}
+												style={{
+													color: `${theme.fontColor}`,
+													fontSize: `${theme.fontSize}em`,
+												}}
 												className=" ion-text-wrap ion-padding-top ion-text-center"
 											>
 												{fs.text}
 											</IonText>
 										</IonRow>
 										<IonRow>
-											<IonLabel color="medium" className="ion-padding-top">
+											<IonLabel
+												color="medium"
+												className="ion-padding-top"
+												style={{ fontSize: `${theme.fontSize}em` }}
+											>
 												{" "}
 												{fs.reference}
 											</IonLabel>
@@ -218,7 +261,7 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 						<IonCard color="">
 							<IonCardContent>
 								<IonText color="warning" className="ion-padding-bottom">
-									Prayer(s):
+									Prayer{currentData.prayer.length > 1 && "s"}:
 								</IonText>
 							</IonCardContent>
 							{currentData.prayer.map((pr, key) => (
@@ -226,7 +269,10 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 									<IonGrid>
 										<IonRow>
 											<IonText
-												style={{ color: `${theme.fontColor}` }}
+												style={{
+													color: `${theme.fontColor}`,
+													fontSize: `${theme.fontSize}em`,
+												}}
 												className="ion-text-wrap ion-padding- "
 											>
 												{key + 1 + ". " + pr}
@@ -246,7 +292,10 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 								<IonGrid>
 									<IonRow>
 										<IonText
-											style={{ color: `${theme.fontColor}` }}
+											style={{
+												color: `${theme.fontColor}`,
+												fontSize: `${theme.fontSize}em`,
+											}}
 											className="ion-text-wrap ion-padding- "
 										>
 											{currentData.confession}
@@ -255,7 +304,6 @@ const DetailsPage: React.FC<DetailsPageProps> = ({ match }) => {
 								</IonGrid>
 							</IonItem>
 						</IonCard>
-
 						<IonItem></IonItem>
 					</>
 				)}

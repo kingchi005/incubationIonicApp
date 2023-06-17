@@ -16,7 +16,7 @@ import {
 } from "@ionic/react";
 import InfiniteList from "./InfiniteList";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import IncubationStore, { getIncubationState } from "../store/IncubationStore";
 import { IDismisModal, IIncubation } from "../context/types";
 
@@ -39,10 +39,22 @@ const SearchPage = ({ dismissModal }: IDismisModal) => {
 		setDataSearchResult(result);
 	};
 
+	/* 	const searchFocus: React.MutableRefObject<any> = useRef(undefined);
+	const searchInput: HTMLInputElement =
+		searchFocus?.current?.querySelector("div input");
+	useLayoutEffect(() => {
+		searchInput?.focus();
+
+		searchInput?.addEventListener("focus", () => {
+			console.log("focussed");
+		});
+	}, []);
+ */
 	return (
 		<>
 			<IonItem>
 				<IonSearchbar
+					// ref={searchFocus}
 					onIonInput={searchIncubationByTopic}
 					debounce={50}
 					style={{}}

@@ -1,13 +1,13 @@
 import { IonCard, IonGrid, useIonRouter } from "@ionic/react";
 import { format } from "date-fns";
 import { getIncubationByDate, parseDate } from "../context/incubation";
-import theme from "../theme/theme";
 import { IDismisModal, IIncubation } from "../context/types";
 import { useRef } from "react";
 import {
 	getIncubationState,
 	setCurrentIncubationData,
 } from "../store/IncubationStore";
+import { getSettingsState } from "../store/settingsStore";
 
 interface dataProp extends IDismisModal {
 	item: IIncubation;
@@ -19,6 +19,7 @@ const ListCard: React.FC<dataProp> = ({
 	dismissModal,
 	fromHome,
 }): JSX.Element => {
+	const theme = getSettingsState();
 	const currentData = getIncubationByDate(item.date);
 	const router = useIonRouter();
 	const selectData = () => {
@@ -55,7 +56,7 @@ const ListCard: React.FC<dataProp> = ({
 						</div>
 						<p
 							style={{
-								fontSize: "13px",
+								fontSize: `${theme.fontSize}em`,
 								textAlign: "start",
 								padding: "0px 10px",
 								color: `${theme.fontColor}`,
@@ -97,7 +98,7 @@ const ListCard: React.FC<dataProp> = ({
 						</div>
 						<p
 							style={{
-								fontSize: "13px",
+								fontSize: `${theme.fontSize}em`,
 								textAlign: "start",
 								padding: "0px 10px",
 								color: `${theme.fontColor}`,

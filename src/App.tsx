@@ -23,9 +23,13 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import DetailsPage from "./pages/DetailsPage";
 import SettingsPage from "./pages/SettingsPage";
+import { getSettingsState } from "./store/settingsStore";
 
 setupIonicReact();
 const App: React.FC = () => {
+	let set = getSettingsState();
+	if (set?.darkMode) document.querySelector("body")?.classList.add("dark");
+
 	return (
 		<IonApp className="light">
 			<IonReactRouter>

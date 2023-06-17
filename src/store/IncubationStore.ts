@@ -2,7 +2,6 @@ import { Store } from "pullstate";
 import data from "../../public/incubationMockData.json";
 import { IIncubation } from "../context/types";
 
-const Incubation = data as IIncubation[];
 // console.log(Incubation);
 const IncubationStore = new Store({
 	Incubation: [] as IIncubation[],

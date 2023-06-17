@@ -45,6 +45,7 @@ import theme from "../theme/theme";
 import SkeletonListCard from "../components/SkeletonListCard";
 import { useEffect, useState } from "react";
 import { loadDatabase, fetchIncubationAndStore } from "../store/useIonStorage";
+import { getSettingsState } from "../store/settingsStore";
 
 const Home: React.FC = () => {
 	const [loading, setLoading] = useState(true);
