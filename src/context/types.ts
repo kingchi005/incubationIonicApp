@@ -46,3 +46,10 @@ export enum MonthList {
 export interface IDismisModal {
 	dismissModal?: () => void;
 }
+
+export type routPathType = "/home" | "/details/:date" | "/settings";
+
+export type routeType = {
+	path: routPathType;
+	component: React.FC<{}>;
+};

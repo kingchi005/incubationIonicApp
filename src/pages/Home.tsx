@@ -74,7 +74,7 @@ const Home: React.FC = () => {
 										"Please Check your internet connection and try again",
 									duration: 5000,
 									position: "bottom",
-									color: "light",
+									color: "dark",
 								});
 								e?.detail.complete();
 								return console.log(
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
 									message: "Please Check your supscription and try again",
 									duration: 5000,
 									position: "bottom",
-									color: "light",
+									color: "dark",
 								});
 								e?.detail.complete();
 								return console.log(
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
 								message: err.message,
 								duration: 5000,
 								position: "bottom",
-								color: "light",
+								color: "dark",
 							});
 							e?.detail.complete();
 							console.log("Fetch error ;(", { err });

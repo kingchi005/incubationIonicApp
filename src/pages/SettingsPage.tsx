@@ -30,10 +30,11 @@ import { incubationStore } from "../store/useIonStorage";
 const SettingsPage: React.FC = () => {
 	const isDarkMode = getSettingsState().darkMode;
 	const fontSize = +getSettingsState().fontSize;
-	const set = getSettingsState();
+	const localSettings = getSettingsState();
+
 	useMemo(() => {
-		incubationStore.set("user-settings", set);
-	}, [set]);
+		incubationStore.set("user-settings", localSettings);
+	}, [localSettings]);
 
 	// const fontSize
 	return (

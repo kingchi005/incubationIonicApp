@@ -24,6 +24,7 @@ import "./theme/variables.css";
 import DetailsPage from "./pages/DetailsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { getSettingsState } from "./store/settingsStore";
+import { routPathType } from "./context/types";
 
 setupIonicReact();
 const App: React.FC = () => {
@@ -34,9 +35,12 @@ const App: React.FC = () => {
 		<IonApp className="light">
 			<IonReactRouter>
 				<IonRouterOutlet>
-					<Route path="/home" component={Home} />
-					<Route path="/details/:date" component={DetailsPage} />
-					<Route path="/settings" component={SettingsPage} />
+					<Route path={"/home" as routPathType} component={Home} />
+					<Route
+						path={"/details/:date" as routPathType}
+						component={DetailsPage}
+					/>
+					<Route path={"/settings" as routPathType} component={SettingsPage} />
 					<Route exact path="/">
 						<Redirect to="/home" />
 					</Route>
