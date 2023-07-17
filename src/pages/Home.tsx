@@ -1,60 +1,42 @@
 import {
-	IonActionSheet,
 	IonButton,
 	IonButtons,
-	IonCard,
 	IonContent,
-	IonGrid,
 	IonHeader,
-	IonIcon,
 	IonItem,
 	IonLabel,
-	IonList,
-	IonListHeader,
-	IonMenu,
 	IonMenuButton,
 	IonPage,
 	IonRefresher,
 	IonRefresherContent,
-	IonSkeletonText,
-	IonText,
-	IonThumbnail,
 	IonTitle,
 	IonToolbar,
 	RefresherEventDetail,
 	useIonAlert,
 	useIonLoading,
 	useIonToast,
+	useIonViewDidEnter,
+	useIonViewWillEnter,
 } from "@ionic/react";
-import {
-	arrowBackCircle,
-	chevronBackCircleOutline,
-	ellipsisHorizontal,
-	ellipsisVertical,
-	menu,
-	menuOutline,
-	refresh,
-	refreshCircle,
-	refreshCircleSharp,
-} from "ionicons/icons";
-import InfiniteList from "../components/InfiniteList";
+import { refresh, settings } from "ionicons/icons";
 import { getIncubationState } from "../store/IncubationStore";
-import { getIncubationByDate, parseDate } from "../context/incubation";
-import format from "date-fns/format";
 import ListCard from "../components/ListCard";
-import Loading from "../components/Loading";
-import Popover from "../components/Popover";
 import MenuBar from "../components/MenuBar";
-import theme from "../theme/theme";
 import SkeletonListCard from "../components/SkeletonListCard";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loadDatabase, fetchIncubationAndStore } from "../store/useIonStorage";
 import { getSettingsState } from "../store/settingsStore";
-
+import PlashScreen from "../components/PlashScreen";
+import { Network } from "@capacitor/network";
 const Home: React.FC = () => {
 	const [isLoading, setIsLoading] = useState(true);
+	const [isInit, setIsInit] = useState(true);
 	const [presentToast] = useIonToast();
 	const [present, dismiss] = useIonLoading();
+	setTimeout(() => {
+		setIsInit(false);
+	}, 1500);
+
 	// setTimeout(() => {	setLoading(true);
 
 	const initialiseData = (e?: CustomEvent<RefresherEventDetail>) => {
@@ -123,8 +105,10 @@ const Home: React.FC = () => {
 	const todayDevotional = getIncubationState()[0];
 	// console.log(todayDevotional);
 	const [presentAlert] = useIonAlert();
-
-	return (
+	const settings = getSettingsState();
+	return isInit ? (
+		<PlashScreen />
+	) : (
 		<>
 			<MenuBar />
 			<IonPage id="main-content">
@@ -188,20 +172,26 @@ const Home: React.FC = () => {
 					<IonItem>
 						<IonButton
 							onClick={() => {
-								presentAlert({
-									header: "Offline :(",
-									// subHeader: "Important message",
-									message:
-										"you are currently Offline please connect to internet to download the incubation",
-									buttons: [
-										{
-											text: "try again",
-											handler() {
-												console.log("alert handler");
-											},
-										},
-									],
-									// mode: "md",
+								Network.getStatus().then((s) => {
+									// s.connected = true;
+									presentAlert({
+										header: s.connected ? "Online :)" : "Offline :(",
+										// subHeader: "Important message",
+										message: s.connected
+											? "you are currently connected"
+											: "you are currently Offline please connect to internet to download the incubation",
+										buttons: [
+											!s.connected
+												? {
+														text: "try again",
+														handler() {
+															console.log("alert handler");
+														},
+												  }
+												: "okay",
+										],
+										// mode: "md",
+									});
 								});
 							}}
 						>
@@ -209,7 +199,14 @@ const Home: React.FC = () => {
 						</IonButton>
 					</IonItem>
 					<IonItem>
-						<IonLabel>
+						<IonLabel
+							style={
+								{
+									fontSize: `${settings.fontSize}em`,
+									wordWrap: "break-word",
+								} as React.CSSProperties
+							}
+						>
 							Multi-line text that should ellipsis when it is too long to fit on
 							one line. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						</IonLabel>
