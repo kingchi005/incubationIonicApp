@@ -53,7 +53,8 @@ const Home: React.FC = () => {
 							if (err.message == "Failed to fetch") {
 								presentToast({
 									message:
-										"Please Check your internet connection and try again",
+										err.message +
+										". Please Check your internet connection and try again",
 									duration: 5000,
 									position: "bottom",
 									color: "dark",

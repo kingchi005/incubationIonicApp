@@ -11,7 +11,7 @@ import {
 	IonToggle,
 	IonToolbar,
 } from "@ionic/react";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getSettingsState, setSettingsState } from "../store/settingsStore";
 import { incubationStore } from "../store/useIonStorage";
 
@@ -21,7 +21,7 @@ const SettingsPage: React.FC = () => {
 	// const fontSize = +getSettingsState().fontSize;
 	// const localSettings = { ...getSettingsState() };
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		setSettingsState(localSettings);
 
 		incubationStore.set("user-settings", localSettings);
