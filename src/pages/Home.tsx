@@ -196,7 +196,7 @@ const Home: React.FC = () => {
 								});
 							}}
 						>
-							alert now
+							click alert
 						</IonButton>
 					</IonItem>
 					<IonItem>
@@ -208,8 +208,8 @@ const Home: React.FC = () => {
 								} as React.CSSProperties
 							}
 						>
-							Multi-line text that should ellipsis when it is too long to fit on
-							one line. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							lti-line text that should ellipsis when it is too long to fit on
+							one line. Lorem ipsum dolor sit amet, adipiscing elit.
 						</IonLabel>
 					</IonItem>
 

@@ -11,7 +11,8 @@
 		"test.e2e": "cypress run",
 		"test.unit": "vitest",
 		"lint": "eslint",
-		"serve-live": "ionic capacitor run android -l --external",
+		"preview-live": "ionic capacitor run android -l --external",
+		"serve-live": "npx capacitor run android -l --no-build --no-copy",
 		"ionic:build": "npm run build",
 		"ionic:serve": "npm run dev"
 	},

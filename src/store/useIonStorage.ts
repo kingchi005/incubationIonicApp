@@ -79,8 +79,8 @@ export async function fetchIncubationAndStore() {
 
 	try {
 		const response = await fetch(
-			"http://192.168.43.19:3000/" + INCUBATION_MONTH_KEY,
-			// "/incubationMockData.json",
+			// "http://192.168.43.19:3000/" + INCUBATION_MONTH_KEY,
+			"/incubationMockData.json",
 			{
 				method: "get",
 				signal: AbortSignal.timeout(50000),
