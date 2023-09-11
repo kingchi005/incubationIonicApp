@@ -28,28 +28,28 @@ then access the web version of the application on http://127.0.0.1:50
 
 ### Details screen:
 
-<img src="127.0.0.1_50_(Nexus 5X) (2).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X) (2).png" alt="Alt text" align="" width="300">
 
 ### Search funtionality:
 
-<img src="127.0.0.1_50_(Nexus 5X) (3).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X) (3).png" alt="Alt text" align="" width="300">
 
 ### Search using exact Date:
 
-<img src="127.0.0.1_50_(Nexus 5X) (4).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X) (4).png" alt="Alt text" align="" width="300">
 
 ### Light theme mode:
 
-<img src="127.0.0.1_50_(Nexus 5X) (5).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X) (5).png" alt="Alt text" align="" width="300">
 
 ### Settings screen:
 
-<img src="localhost_5173_settings(Nexus 5X).png" alt="Alt text" align="" width="500">
+<img src="localhost_5173_settings(Nexus 5X).png" alt="Alt text" align="" width="300">
 
 ### Home screen with larger font size:
 
-<img src="127.0.0.1_50_(Nexus 5X).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X).png" alt="Alt text" align="" width="300">
 
 ### Menu funtionality in the Home screen:
 
-<img src="127.0.0.1_50_(Nexus 5X) (1).png" alt="Alt text" align="" width="500">
+<img src="127.0.0.1_50_(Nexus 5X) (1).png" alt="Alt text" align="" width="300">
