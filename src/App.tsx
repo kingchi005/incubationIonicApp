@@ -52,12 +52,9 @@ const App: React.FC = () => {
 		<IonApp>
 			<IonReactRouter>
 				<IonRouterOutlet>
-					<Route path={"/home" as routPathType} component={Home} />
-					<Route
-						path={"/details/:date" as routPathType}
-						component={DetailsPage}
-					/>
-					<Route path={"/settings" as routPathType} component={SettingsPage} />
+					<Route path="/home" component={Home} />
+					<Route path="/details/:date" component={DetailsPage} />
+					<Route path="/settings" component={SettingsPage} />
 					<Route exact path="/">
 						<Redirect to="/home" />
 					</Route>
