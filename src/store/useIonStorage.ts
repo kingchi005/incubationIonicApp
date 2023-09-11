@@ -79,11 +79,7 @@ export async function fetchIncubationAndStore() {
 
 	try {
 		const response = await fetch(
-<<<<<<< HEAD
-			// "http://localhost:3000/" + INCUBATION_MONTH_KEY,
-=======
 			// "http://192.168.43.19:3000/" + INCUBATION_MONTH_KEY,
->>>>>>> ca36cb9fff0f88213835b67dbff025ef9a25f2d8
 			"/incubationMockData.json",
 			{
 				method: "get",
