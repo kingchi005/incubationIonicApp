@@ -33,10 +33,10 @@ export const incubationStore = new Storage({
 	await incubationStore.create();
 })();
 
-export async function loadDatabase() {
-	console.log("initialising data...");
+export async function loadSettings() {
 	// load settings-
 	let storedSettings = <settingsType>await incubationStore.get("user-settings");
+	// console.log(storedSettings);
 
 	if (storedSettings && Object.keys(storedSettings).length !== 0)
 		setSettingsState(storedSettings);
@@ -44,6 +44,10 @@ export async function loadDatabase() {
 		incubationStore.set("user-settings", defaultSettings);
 		setSettingsState(defaultSettings);
 	}
+}
+
+export async function loadDatabase() {
+	console.log("initialising data...");
 
 	// load incubation-
 	let storedIncubationData = <IIncubation[] | null>(
@@ -68,14 +72,18 @@ export async function fetchIncubationAndStore() {
 	// });
 	const networkStatus = await Network.getStatus();
 
-	console.log("Network status:", networkStatus);
+	// console.log("Network status:", networkStatus);
 	if (!networkStatus.connected) {
 		// throw Error("You are currently offline :(");
 	}
 
 	try {
 		const response = await fetch(
+<<<<<<< HEAD
 			// "http://localhost:3000/" + INCUBATION_MONTH_KEY,
+=======
+			// "http://192.168.43.19:3000/" + INCUBATION_MONTH_KEY,
+>>>>>>> ca36cb9fff0f88213835b67dbff025ef9a25f2d8
 			"/incubationMockData.json",
 			{
 				method: "get",

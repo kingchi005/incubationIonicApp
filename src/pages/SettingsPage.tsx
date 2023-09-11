@@ -1,39 +1,31 @@
 import {
 	IonBackButton,
-	IonButton,
 	IonButtons,
-	IonCard,
-	IonCheckbox,
 	IonContent,
 	IonHeader,
-	IonIcon,
-	IonItem,
 	IonLabel,
 	IonList,
 	IonPage,
-	IonProgressBar,
 	IonRange,
-	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
 } from "@ionic/react";
-import { search } from "ionicons/icons";
-import React, { useMemo, useState } from "react";
-import Popover from "../components/Popover";
-import SettingsStore, {
-	getSettingsState,
-	updateSettingsKeyValue,
-} from "../store/settingsStore";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { getSettingsState, setSettingsState } from "../store/settingsStore";
 import { incubationStore } from "../store/useIonStorage";
 
 const SettingsPage: React.FC = () => {
-	const isDarkMode = getSettingsState().darkMode;
-	const fontSize = +getSettingsState().fontSize;
-	const set = getSettingsState();
-	useMemo(() => {
-		incubationStore.set("user-settings", set);
-	}, [set]);
+	const [localSettings, setLocalSettings] = useState({ ...getSettingsState() });
+	// const localSettings.darkMode = getSettingsState().darkMode;
+	// const fontSize = +getSettingsState().fontSize;
+	// const localSettings = { ...getSettingsState() };
+
+	useEffect(() => {
+		setSettingsState(localSettings);
+
+		incubationStore.set("user-settings", localSettings);
+	}, [localSettings]);
 
 	// const fontSize
 	return (
@@ -60,17 +52,25 @@ const SettingsPage: React.FC = () => {
 						<IonLabel style={{}}>
 							<div style={{}}>Dark mode</div>
 							<p style={{ paddingBlock: "5px" }}>
-								{!isDarkMode ? "turn on dark mode" : "turn off dark mode"}
+								{!localSettings.darkMode
+									? "turn on dark mode"
+									: "turn off dark mode"}
 							</p>
 						</IonLabel>
 						<IonToggle
 							slot="end"
-							checked={isDarkMode}
+							checked={localSettings.darkMode}
 							labelPlacement="start"
 							aria-label="turn on darm mode"
 							onIonChange={() => {
-								document.querySelector("body")?.classList.toggle("dark");
-								updateSettingsKeyValue("darkMode", !isDarkMode);
+								// updateSettingsKeyValue("darkMode", !localSettings.darkMode);
+								// document.querySelector("body")?.classList.toggle("dark");
+								setLocalSettings((prev) => {
+									return {
+										...prev,
+										darkMode: !prev.darkMode,
+									};
+								});
 							}}
 						/>
 					</IonLabel>
@@ -80,7 +80,7 @@ const SettingsPage: React.FC = () => {
 						<IonLabel style={{}}>
 							<div style={{ marginBottom: "10px" }}>Font size</div>
 						</IonLabel>
-						<p style={{ fontSize: `${fontSize}em` }}>
+						<p style={{ fontSize: `${localSettings.fontSize}em` }}>
 							change the size of your font
 						</p>
 						<IonRange
@@ -89,10 +89,14 @@ const SettingsPage: React.FC = () => {
 							step={0.1}
 							max={1.6}
 							min={0.9}
-							value={fontSize}
+							value={localSettings.fontSize}
 							snaps
 							onIonChange={(e) => {
-								updateSettingsKeyValue("fontSize", +e.target.value);
+								// updateSettingsKeyValue("fontSize", +e.target.value);
+								setLocalSettings((prev) => ({
+									...prev,
+									fontSize: +e.target.value,
+								}));
 							}}
 						/>
 					</IonLabel>

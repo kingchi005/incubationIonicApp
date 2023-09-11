@@ -21,20 +21,12 @@ import {
 	IonThumbnail,
 	IonTitle,
 	IonToolbar,
-	RouteManagerContext,
 	useIonRouter,
-	useIonViewDidEnter,
-	useIonViewDidLeave,
-	useIonViewWillLeave,
 } from "@ionic/react";
 import React from "react";
-import { ellipsisHorizontal, ellipsisVertical, search } from "ionicons/icons";
-import { Redirect, RouteComponentProps, Router } from "react-router";
-import { getIncubationByDate, parseDate } from "../context/incubation";
-import {
-	getCurrentIncubationData,
-	setCurrentIncubationData,
-} from "../store/IncubationStore";
+import { search } from "ionicons/icons";
+import { RouteComponentProps } from "react-router";
+import { getIncubationByDate } from "../context/incubation";
 import format from "date-fns/format";
 import SearchModal from "../components/SearchModal";
 import Popover from "../components/Popover";

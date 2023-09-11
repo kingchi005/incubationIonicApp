@@ -1,5 +1,11 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import {
+	IonApp,
+	IonRouterOutlet,
+	setupIonicReact,
+	useIonViewDidEnter,
+	useIonViewWillEnter,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 
@@ -24,14 +30,26 @@ import "./theme/variables.css";
 import DetailsPage from "./pages/DetailsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { getSettingsState } from "./store/settingsStore";
+import { routPathType } from "./context/types";
+import { loadSettings } from "./store/useIonStorage";
+import { dark, themeStyleTag } from "./theme/theme";
 
 setupIonicReact();
+
 const App: React.FC = () => {
+	loadSettings();
+	useIonViewWillEnter(() => {
+		console.log("this is it");
+	});
 	let set = getSettingsState();
-	if (set?.darkMode) document.querySelector("body")?.classList.add("dark");
+	// console.log("settings: ", set);
+
+	// themeStyleTag.textContent = set.darkMode ? dark : "";
+	// if (set?.darkMode) document.querySelector("body")?.classList.add("dark");
+	document.querySelector("body")?.classList.toggle("dark", set.darkMode);
 
 	return (
-		<IonApp className="light">
+		<IonApp>
 			<IonReactRouter>
 				<IonRouterOutlet>
 					<Route path="/home" component={Home} />

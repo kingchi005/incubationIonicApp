@@ -1,3 +1,5 @@
+import type { RouteProps } from "react-router-dom";
+
 export interface IIncubation {
 	date: string;
 	topic: string;
@@ -46,3 +48,14 @@ export enum MonthList {
 export interface IDismisModal {
 	dismissModal?: () => void;
 }
+
+export type routPathType =
+	| "/home"
+	| "/details/:date"
+	| "/settings"
+	| (string & {});
+
+export type routeType = {
+	path: routPathType;
+	component: React.FC<{}>;
+};

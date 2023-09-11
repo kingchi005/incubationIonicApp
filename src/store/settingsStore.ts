@@ -1,4 +1,4 @@
-import { Store } from "pullstate";
+import { Store, useStoreState } from "pullstate";
 import { incubationStore } from "./useIonStorage";
 import defaultSettings, {
 	settingsKeyType,
@@ -15,7 +15,9 @@ import defaultSettings, {
 const SettingsStore = new Store<settingsType>({} as settingsType);
 
 export const getSettingsState = () => {
-	return SettingsStore.useState((s) => s);
+	const settings = SettingsStore.useState((s) => s);
+
+	return settings.ok ? settings : defaultSettings;
 };
 
 const settingsValues = Object.values(defaultSettings);
